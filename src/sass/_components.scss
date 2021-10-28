@@ -37,3 +37,38 @@
     fill: currentColor;
   }
 }
+
+.btn--inline {
+  color: $color-primary;
+  background-color: $color-grey-light-1;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+
+  svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    fill: currentColor;
+    margin: 0 0.2rem;
+  }
+
+  span {
+    margin: 0 0.4rem;
+  }
+
+  &:hover {
+    background-color: $color-grey-light-2;
+    color: $color-grad-2;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -72,3 +72,136 @@
     outline: none;
   }
 }
+
+.btn--tiny {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: $color-primary;
+    transition: all 0.3s;
+  }
+
+  &:not(:last-child) {
+    margin-right: 0.3rem;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover svg {
+    transform: translateY(-1px);
+  }
+
+  &:active svg {
+    fill: $color-grad-2;
+    transform: translateY(0);
+  }
+}
+
+.btn--round {
+  border: none;
+  background: $gradient;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 4.5rem;
+  height: 4.5rem;
+  transition: all 0.3s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    transform: scale(1.07);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: #fff;
+  }
+}
+
+.btn--small {
+  &,
+  &:link,
+  &:visited {
+    @extend %btn;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 1.25rem 2.25rem;
+    text-decoration: none;
+
+    svg {
+      width: 1.75rem;
+      height: 1.75rem;
+      fill: currentColor;
+    }
+  }
+}
+
+.spinner {
+  margin: 5rem auto;
+  text-align: center;
+
+  svg {
+    width: 6rem;
+    height: 6rem;
+    fill: $color-primary;
+    animation: rotate 2s infinite linear;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.message,
+.error {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 5rem 4rem;
+
+  display: flex;
+
+  svg {
+    width: 3rem;
+    height: 3rem;
+    fill: $color-primary;
+    transform: translateY(-0.3rem);
+  }
+
+  p {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-left: 1.5rem;
+    line-height: 1.5;
+  }
+}
+
+.heading--2 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $color-primary;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}

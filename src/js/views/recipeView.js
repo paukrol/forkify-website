@@ -1,4 +1,7 @@
-import icons from "../../img/icons.svg";
+import icons from "../../img/icons.svg"; // Parcel 2
+// require("fractional").Fraction;
+// lub:
+import { Fraction } from "fractional";
 
 class RecipeView {
   #parentElement = document.querySelector(".recipe");

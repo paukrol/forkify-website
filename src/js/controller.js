@@ -1,18 +1,15 @@
 // require("babel-core/register");
-// require("babel-polyfill"); ---> tak robiło się dawniej
-
-// require("fractional").Fraction; lub:
-import Fraction from "fractional";
+// require("babel-polyfill"); // ---> tak robiło się dawniej
 
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+import { async } from "regenerator-runtime";
 
 // console.log(model);
-
-const recipeContainer = document.querySelector(".recipe");
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -21,7 +18,7 @@ const recipeContainer = document.querySelector(".recipe");
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
+    // console.log(id);
 
     if (!id) return;
     recipeView.renderSpinner();
@@ -38,13 +35,41 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchResult = async function () {
+  try {
+    // 1) Get search query
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    // 2) Load search results
+    await model.loadSearch(query);
+
+    // 3) Render results
+    // console.log(model.state.search.query);
+    // console.log(model.state.search.result);
+
+    searchView.render(model.state.search.result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // [("hashchange", "load")].forEach((ev) =>
 //   window.addEventListener(ev, controlRecipes)
 // );
 // window.addEventListener("hashchange", controlRecipes);
 // window.addEventListener("load", controlRecipes);
 
+// controlSearchResult();
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerRender(controlSearchResult);
 };
 init();
+
+// document.querySelector(".search__btn").addEventListener("click", (e) => {
+//   e.preventDefault();
+
+//   controlSearchResult();
+// });

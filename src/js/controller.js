@@ -54,9 +54,10 @@ const controlSearchResult = async function () {
 
     // 3) Render results
     // console.log(model.state.search.query);
-    // console.log(model.state.search.result);
+    // console.log(model.state.search.results);
 
-    resultsView.render(model.state.search.result);
+    // resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
   } catch (err) {
     console.log(err);
   }

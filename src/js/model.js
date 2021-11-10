@@ -1,11 +1,13 @@
-import { API_URL } from "./config.js";
+import { API_URL, RES_PER_PAGE } from "./config.js";
 import { getJSON } from "./helpers.js";
 
 export const state = {
   recipe: {},
   search: {
     query: "",
-    result: [],
+    results: [],
+    page: 1,
+    resultPerPage: RES_PER_PAGE,
   },
 };
 
@@ -41,7 +43,7 @@ export const loadSearch = async function (query) {
     const data = await getJSON(`${API_URL}?search=${query}`);
     console.log(data);
 
-    state.search.result = data.data.recipes.map((rec) => {
+    state.search.results = data.data.recipes.map((rec) => {
       return {
         id: rec.id,
         title: rec.title,
@@ -53,4 +55,13 @@ export const loadSearch = async function (query) {
     console.error(`${err} :<`);
     throw err;
   }
+};
+
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+
+  const start = (page - 1) * state.search.resultPerPage; // 0
+  const end = page * state.search.resultPerPage; // 9
+
+  return state.search.results.slice(start, end);
 };

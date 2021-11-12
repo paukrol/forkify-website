@@ -92,6 +92,16 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
+const controlBookmark = function () {
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
+
+  recipeView.update(model.state.recipe);
+
+  // console.log(model.state.bookmarks);
+  // console.log(model.state.recipe);
+};
+
 // [("hashchange", "load")].forEach((ev) =>
 //   window.addEventListener(ev, controlRecipes)
 // );
@@ -100,9 +110,10 @@ const controlServings = function (newServings) {
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerBookmark(controlBookmark);
   searchView.addHandlerRender(controlSearchResult);
   paginationView.addHandlerClick(controlPagination);
-  recipeView.addHandlerUpdateServings(controlServings);
 };
 
 init();

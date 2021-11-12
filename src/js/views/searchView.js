@@ -2,7 +2,6 @@ class SearchView {
   #parentElement = document.querySelector(".search");
 
   #query;
-  #data;
 
   getQuery() {
     this.#query = this.#parentElement.querySelector(".search__field").value;

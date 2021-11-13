@@ -94,21 +94,25 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
-const controlBookmark = function () {
+const controlAddBookmark = function () {
   // 1) Add/remove bookmark
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
   else {
     model.deleteBookmark(model.state.recipe.id);
   }
 
-  // 2) Update recipe view
+  // 2) Update recipe view --> tutaj updateujemy znacznik przy przepisie
   recipeView.update(model.state.recipe);
 
-  // 3) Render bookmarks
+  // 3) Render bookmarks --> tutaj renderujemy przepisy w bookmarks
   bookmarksView.render(model.state.bookmarks);
 
   // console.log(model.state.bookmarks);
   // console.log(model.state.recipe);
+};
+
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
 };
 
 // [("hashchange", "load")].forEach((ev) =>
@@ -118,9 +122,10 @@ const controlBookmark = function () {
 // window.addEventListener("load", controlRecipes);
 
 const init = function () {
+  bookmarksView.addHandlerBookmark(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
-  recipeView.addHandlerBookmark(controlBookmark);
+  recipeView.addHandlerBookmark(controlAddBookmark);
   searchView.addHandlerRender(controlSearchResult);
   paginationView.addHandlerClick(controlPagination);
 };

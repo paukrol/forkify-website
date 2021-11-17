@@ -1,5 +1,5 @@
-import { API_URL, RES_PER_PAGE } from "./config.js";
-import { getJSON } from "./helpers.js";
+import { API_URL, RES_PER_PAGE, KEY } from "./config.js";
+import { getJSON, sendJSON } from "./helpers.js";
 
 export const state = {
   recipe: {},
@@ -12,23 +12,28 @@ export const state = {
   bookmarks: [],
 };
 
+const createdRecipeObject = function (data) {
+  const { recipe } = data.data;
+  // console.log(recipe);
+
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    image: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }),
+  };
+};
+
 export const loadRecipe = async function (id) {
   try {
     const data = await getJSON(`${API_URL}${id}`);
 
-    const { recipe } = data.data;
-    // console.log(recipe);
-
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
+    state.recipe = createdRecipeObject(data);
 
     console.log(state.recipe);
 
@@ -116,7 +121,7 @@ const init = function () {
   const storage = localStorage.getItem("bookmarks");
   if (storage) state.bookmarks = JSON.parse(storage);
 
-  console.log(state.bookmarks);
+  // console.log(state.bookmarks);
 };
 
 init();
@@ -126,3 +131,49 @@ const clearBookmarks = function () {
 };
 
 // clearBookmarks()
+
+export const uploadRecipe = async function (newRecipe) {
+  try {
+    const ingredients = Object.entries(newRecipe)
+      .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")
+      .map((ing) => {
+        const ingArr = ing[1].replaceAll(" ", "").split(",");
+
+        if (ingArr.length !== 3)
+          throw new Error(
+            "Wrong ingredient format! Please use the correct format :)"
+          );
+
+        const [quantity, unit, description] = ingArr;
+
+        return {
+          quantity: quantity ? +quantity : null,
+          unit,
+          description,
+        };
+      });
+
+    console.log(ingredients);
+
+    const recipe = {
+      title: newRecipe.title,
+      publisher: newRecipe.publisher,
+      source_url: newRecipe.sourceUrl,
+      image_url: newRecipe.image,
+      servings: +newRecipe.servings,
+      cooking_time: +newRecipe.cookingTime,
+      ingredients,
+    };
+
+    console.log(recipe);
+
+    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    console.log(data);
+
+    state.recipe = createdRecipeObject(data);
+
+    addBookmark(state.recipe);
+  } catch (err) {
+    throw err;
+  }
+};

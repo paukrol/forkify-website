@@ -3,6 +3,7 @@ import View from "./View.js";
 
 class AddRecipeView extends View {
   _parentElement = document.querySelector(".upload");
+  _message = "Recipe was successfully uploaded :)";
 
   _btnOpen = document.querySelector(".nav__btn--add-recipe");
   _btnClose = document.querySelector(".btn--close-modal");
@@ -37,7 +38,7 @@ class AddRecipeView extends View {
 
       const dataArr = [...new FormData(this)];
       const data = Object.fromEntries(dataArr);
-      // console.log(data);
+
       handler(data);
     });
   };

@@ -15,14 +15,9 @@ import "regenerator-runtime/runtime";
 import { async } from "regenerator-runtime";
 
 // console.log(model);
-
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
-
-// if (module.hot) {
-//   module.hot.accept();
-// }
 
 const controlRecipes = async function () {
   try {
@@ -46,7 +41,6 @@ const controlRecipes = async function () {
     // controlServings(8);
   } catch (err) {
     // console.log(err);
-    // recipeView.error(`${err} :<`);
     recipeView.renderError();
   }
 };
